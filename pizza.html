@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Platter Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container mx-auto" id="app">
+        <header>
+            <h1 class="text-7xl text-center">Pizza Platter</h1> <br>
+            
+        </header>
+        <section class="flex items-center justify-center mb-8">
+            <button class="p-4 block mr-2 rounded text-green-500 bg-gray-200 font-semibold transition-all ease-in-out duration-150 hover:bg-gray-300 hover:text-green-700" @click="choiceItem('pizza')">Pizza</button>
+            <button class="p-4 block mr-2 rounded text-green-500 bg-gray-200 font-semibold transition-all ease-in-out duration-150 hover:bg-gray-300 hover:text-green-700" @click="choiceItem('drink')">Drinks</button>
+            <button class="p-4 block mr-2 rounded text-green-500 bg-gray-200 font-semibold transition-all ease-in-out duration-150 hover:bg-gray-300 hover:text-green-700" @click="choiceItem('sauces')">Sauce</button>
+        </section>
+        <section id="pizza" v-if="choice=='pizza'" class="bg-green-200 p-5 rounded mb-8">
+            <h2 class="text-5xl text-center text-green-500 ">Choose Pizza</h2>
+
+            <!-- Slider -->
+            <div class="w-1/3 inline-block" v-for="(pizza, index) in pizzas">
+                <img :src="imagePath(pizza.image)" alt="" class="w-32 h-28">
+                <h3 class="text-3xl">
+                    {{ pizza.name }}
+                </h3>
+                <h4 class="text-xl">
+                    Price: $ {{pizza.price}} <button class="bg-red-500 text-white rounded p-2 transition-all ease-in-out duration-150 hover:bg-red-400" @click="choicePizza(index)">Select</button>
+                </h4>
+
+            </div>
+        </section>
+        <section id="variations" class="mb-8">
+            <div v-if="choice=='sauces'" id="sauce" class="sm:w-full md:w-full inline-block bg-green-200 p-5 rounded">
+                <h2 class="text-5xl text-center text-green-500">Choose Sauce</h2>
+                <!-- Slider -->
+                <div class="w-1/4 inline-block" v-for="(sauce, index) in sauces">
+                    <img :src="imagePath(sauce.image)" alt="" class="w-32 h-28">
+                    <h3 class="text-sm">
+                        {{ sauce.name }}
+                    </h3>
+                    <h4>
+                        Price: $ {{sauce.price}} <button class="bg-red-500 text-white rounded p-2 transition-all ease-in-out duration-150 hover:bg-red-400" @click="choiceSauce(index)">Select</button>
+                    </h4>
+    
+                </div>
+            </div>
+            <div v-if="choice=='drink'" id="drinks" class="sm:w-full md:w-full inline-block bg-green-200 p-5 rounded">
+                <h2 class="text-5xl text-center text-green-500">Choose Drinks</h2>
+                <!-- Slider -->
+                <div class="w-1/4 inline-block" v-for="(drink, index) in drinks">
+                    <img :src="imagePath(drink.image)" alt="" class="w-32 h-28">
+                    <h3 class="text-sm">
+                        {{ drink.name }}
+                    </h3>
+                    <h4>
+                        Price: $ {{drink.price}} <button class="bg-red-500 text-white rounded p-2 transition-all ease-in-out duration-150 hover:bg-red-400" @click="choiceDrink(index)">Select</button>
+                    </h4>
+    
+                </div>
+            </div>
+        </section>
+        <section v-if="platter.pizza.name!='' || platter.drink.name!='' || platter.sauces.length>0" id="myPlatter" class="container mb-8 mx-auto h-96">
+            <div style="background-image: url('./highqualityimages/pngegg table 3.png');" class="bg-cover bg-no-repeat bg-center h-full">
+                {{ platter.pizza.name }} <br>
+                {{ platter.drink.name }} <br>
+                <span v-for="sauce in platter.sauces">
+                    {{ sauce.name }}
+                </span>
+
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script>
+        var pizzaPrice = new Vue({
+            el: "#app",
+            data: {
+                pizzas: [
+                    {
+                        name: 'Kala Bhuna Pizza',
+                        image: 'pngegg pizza.png',
+                        price: 12
+                    },
+                    {
+                        name: 'Mashed Tomato',
+                        image: 'pngegg pizza 2.png',
+                        price: 18
+                    },
+                    {
+                        name: 'Spicy',
+                        image: 'pngegg pizza 3.png',
+                        price: 13
+                    },
+                    {
+                        name: 'Cheesy',
+                        image: 'pngegg pizza 4.png',
+                        price: 11
+                    },
+                    {
+                        name: 'Red Meat',
+                        image: 'pngegg pizza 5.png',
+                        price: 15
+                    },
+                    {
+                        name: 'WTH Pizza',
+                        image: 'pngegg pizza 6.png',
+                        price: 10
+                    },
+                ],
+                sauces: [
+                    {
+                        name: 'White',
+                        image: 'pngegg sauce 3.png',
+                        price: 1.5
+                    },
+                    {
+                        name: 'Dark Red',
+                        image: 'pngegg sauce 4.png',
+                        price: 1.8
+                    },
+                    {
+                        name: 'Tomato',
+                        image: 'pngegg sauce 7.png',
+                        price: 1.3
+                    },
+                    {
+                        name: 'Hot Tomato',
+                        image: 'pngegg sauce 8.png',
+                        price: 1.1
+                    },
+                    {
+                        name: 'Extra Hot',
+                        image: 'pngegg sauce 11.png',
+                        price: 15
+                    },
+                    {
+                        name: 'Sour',
+                        image: 'pngegg sauce 12.png',
+                        price: 10
+                    },
+                ],
+                drinks: [
+                    {
+                        name: 'Black Coffee',
+                        image: 'pngegg black coffee.png',
+                        price: 1.5
+                    },
+                    {
+                        name: 'Love Coffee',
+                        image: 'pngegg cappucino coffee.png',
+                        price: 1.8
+                    },
+                    {
+                        name: 'Cocktail',
+                        image: 'pngegg cocktail.png',
+                        price: 1.3
+                    },
+                    {
+                        name: 'Coconut Water',
+                        image: 'pngegg coconut water.png',
+                        price: 1.1
+                    },
+                    {
+                        name: 'Orange Juice',
+                        image: 'pngegg iced orange.png',
+                        price: 15
+                    },
+                    {
+                        name: 'Lemon Juice',
+                        image: 'pngegg lemon juice.png',
+                        price: 10
+                    },
+                ],
+                tables: [
+                    {
+                        name: 'Black',
+                        image: 'pngegg table.png'
+                    },
+                    {
+                        name: 'Woody',
+                        image: 'pngegg table 3.png'
+                    },
+                    {
+                        name: 'Classic',
+                        image: 'pngegg table 2.png'
+                    }
+                ],
+                dishes: [
+                    {
+                        name: 'White',
+                        image: 'pngegg dish 2.png'
+                    },
+                    {
+                        name: 'Traditional',
+                        image: 'pngegg dish 3.pngg'
+                    },
+                    {
+                        name: 'Classic',
+                        image: 'pngegg dish 4.png'
+                    }
+                ],
+                platter: {
+                    pizza: {
+                        name: '',
+                        image: '',
+                        price: ''
+                    },
+                    sauces: [],
+                    drink: {
+                        name: '',
+                        image: '',
+                        price: '' 
+                    }
+                },
+                choice: ''
+            },
+            methods: {
+                imagePath(image)
+                {
+                    return "highqualityimages/"+image;
+                },
+                choicePizza(index)
+                {
+                    this.platter.pizza.name = this.pizzas[index].name,
+                    this.platter.pizza.image = this.pizzas[index].image,
+                    this.platter.pizza.price = this.pizzas[index].price
+                },
+                choiceDrink(index)
+                {
+                    this.platter.drink.name = this.drinks[index].name,
+                    this.platter.drink.image = this.drinks[index].image,
+                    this.platter.drink.price = this.drinks[index].price
+                },
+                choiceSauce(index)
+                {
+                    this.platter.sauces.push({
+                        name: this.sauces[index].name,
+                        image: this.sauces[index].image,
+                        price: this.sauces[index].price
+                    })
+                },
+                choiceItem(item)
+                {
+                    this.choice = item
+                }
+            },
+            calculated: {
+                totalPrice()
+                {
+                    // calculation
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
