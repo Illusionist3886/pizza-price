@@ -65,14 +65,26 @@
             </div>
         </section>
         <section v-if="platter.pizza.name!='' || platter.drink.name!='' || platter.sauces.length>0" id="myPlatter" class="container mb-8 mx-auto h-96">
-            <div style="background-image: url('./highqualityimages/pngegg table 3.png');" class="bg-cover bg-no-repeat bg-center h-full">
-                {{ platter.pizza.name }} <br>
-                {{ platter.drink.name }} <br>
-                <span v-for="sauce in platter.sauces">
-                    {{ sauce.name }}
-                </span>
+            <div style="background-image: url('./highqualityimages/pngegg table 3.png');" class="bg-cover bg-no-repeat bg-center h-full flex items-center justify-center py-2">
+                <div class="w-1/4">
+                    <img :src="imagePath(platter.drink.image)" alt="" srcset="" class="w-96 max-h-80">
+
+                </div>
+                <div class="w-1/4 flex justify-center">
+                    
+                <img :src="imagePath(platter.pizza.image)" alt="" srcset="" class="w-96">
+                </div>
+                
+                
+                <div class="w-1/4 flex">
+                    <span v-for="sauce in platter.sauces">
+                        <img :src="imagePath(sauce.image)" alt="" srcset="" class="w-60">
+
+                    </span>
+                </div>
 
             </div>
+            <h2 class="text-2xl text-center text-indigo-400">Total Price: {{totalPrice}}</h2>
         </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -249,10 +261,18 @@
                     this.choice = item
                 }
             },
-            calculated: {
+            computed: {
                 totalPrice()
                 {
-                    // calculation
+                    pizzaPrice = this.platter.pizza.price
+                    drinkPrice = this.platter.drink.price
+                    saucePrice = 0
+                    this.platter.sauces.forEach(element => {
+                        saucePrice += +element.price
+                    });
+
+                    totalPrice = +pizzaPrice + +drinkPrice + +saucePrice
+                    return parseFloat(totalPrice).toFixed(2)
                 }
             }
         })
